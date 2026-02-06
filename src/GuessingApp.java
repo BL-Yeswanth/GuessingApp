@@ -17,18 +17,18 @@ public class GuessingApp {
         int hintCount = 0;
         boolean isWin = false;
 
-        while (attempts < config.getMaxAttempts()) {
-            try {
-                System.out.print("Enter your guess: ");
-                String input = scanner.nextLine();
+            while (attempts < config.getMaxAttempts()) {
+                try {
+                    System.out.print("Enter your guess: ");
+                    String input = scanner.nextLine();
 
-                int guess = ValidationService.validateInput(input);
-                attempts++;
+                    int guess = ValidationService.validateInput(input);
+                    attempts++;
 
-                String result = GuessValidator.validateGuess(
-                        guess, config.getTargetNumber());
+                    String result = GuessValidator.validateGuess(
+                            guess, config.getTargetNumber());
 
-                System.out.println(result);
+                    System.out.println(result);
 
                 if ("CORRECT".equals(result)) {
                     isWin = true;
@@ -41,12 +41,11 @@ public class GuessingApp {
                                 HintService.generateHint(
                                         config.getTargetNumber(), hintCount));
                     }
-                }
 
-            } catch (InvalidInputException e) {
-                System.out.println(e.getMessage());
+                } catch (InvalidInputException e) {
+                    System.out.println(e.getMessage());
+                }
             }
-        }
 
         StorageService.saveResult(playerName, attempts, isWin);
 
