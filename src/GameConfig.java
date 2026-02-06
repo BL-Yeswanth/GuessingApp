@@ -5,12 +5,13 @@ class GameConfig {
     private final int MIN = 1;
     private final int MAX = 100;
     private final int MAX_ATTEMPTS = 7;
+    private final int MAX_HINTS = 3;
 
     private int targetNumber;
 
     public GameConfig() {
         Random random = new Random();
-        targetNumber = random.nextInt(MAX - MIN + 1) + MIN;
+        this.targetNumber = random.nextInt(MAX - MIN + 1) + MIN;
     }
 
     public int getTargetNumber() {
@@ -21,8 +22,13 @@ class GameConfig {
         return MAX_ATTEMPTS;
     }
 
+    public int getMaxHints() {
+        return MAX_HINTS;
+    }
+
     public void showRules() {
         System.out.println("Guess a number between " + MIN + " and " + MAX);
-        System.out.println("You have " + MAX_ATTEMPTS + " attempts.\n");
+        System.out.println("You have " + MAX_ATTEMPTS + " attempts.");
+        System.out.println("Hints will be given after wrong guesses.\n");
     }
 }

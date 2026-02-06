@@ -1,13 +1,12 @@
 class GuessValidator {
 
     public static String validateGuess(int guess, int target) {
-
         if (guess == target) {
             return "CORRECT";
         } else if (guess < target) {
-            return "Too Low";
+            return "Too LOW";
         } else {
-            return "Too High";
+            return "Too HIGH";
         }
     }
 }
