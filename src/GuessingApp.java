@@ -7,50 +7,58 @@ public class GuessingApp {
         System.out.println("Welcome to the Guessing App");
 
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter player name: ");
-        String playerName = scanner.nextLine();
+        boolean playAgain;
 
-        GameConfig config = new GameConfig();
-        config.showRules();
+        do {
+            System.out.print("Enter player name: ");
+            String playerName = scanner.nextLine();
 
-        int attempts = 0;
-        int hintCount = 0;
-        boolean isWin = false;
+            GameConfig config = new GameConfig();
+            config.showRules();
 
-        while (attempts < config.getMaxAttempts()) {
-            try {
-                System.out.print("Enter your guess: ");
-                String input = scanner.nextLine();
+            int attempts = 0;
+            int hintCount = 0;
+            boolean isWin = false;
 
-                int guess = ValidationService.validateInput(input);
-                attempts++;
+            while (attempts < config.getMaxAttempts()) {
+                try {
+                    System.out.print("Enter your guess: ");
+                    String input = scanner.nextLine();
 
-                String result = GuessValidator.validateGuess(
-                        guess, config.getTargetNumber());
+                    int guess = ValidationService.validateInput(input);
+                    attempts++;
 
-                System.out.println(result);
+                    String result = GuessValidator.validateGuess(
+                            guess, config.getTargetNumber());
 
-                if ("CORRECT".equals(result)) {
-                    isWin = true;
-                    System.out.println("🎉 You guessed it in " + attempts + " attempts!");
-                    break;
-                } else {
-                    if (hintCount < config.getMaxHints()) {
+                    System.out.println(result);
+
+                    if ("CORRECT".equals(result)) {
+                        isWin = true;
+                        System.out.println("🎉 You guessed it in " + attempts + " attempts!");
+                        break;
+                    } else if (hintCount < config.getMaxHints()) {
                         hintCount++;
                         System.out.println(
                                 HintService.generateHint(
                                         config.getTargetNumber(), hintCount));
                     }
+
+                } catch (InvalidInputException e) {
+                    System.out.println(e.getMessage());
                 }
-
-            } catch (InvalidInputException e) {
-                System.out.println(e.getMessage());
             }
-        }
 
-        StorageService.saveResult(playerName, attempts, isWin);
+            StorageService.saveResult(playerName, attempts, isWin);
 
-        System.out.println("Game Over");
+            System.out.println("Final Attempts: " + attempts);
+            System.out.println("Result: " + (isWin ? "WIN" : "LOSE"));
+
+            playAgain = GameController.restartGame(scanner);
+
+        } while (playAgain);
+
+        System.out.println("Thank you for playing!");
         scanner.close();
     }
 }
