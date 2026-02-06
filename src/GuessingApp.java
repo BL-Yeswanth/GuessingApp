@@ -6,13 +6,16 @@ public class GuessingApp {
 
         System.out.println("Welcome to the Guessing App");
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter player name: ");
+        String playerName = scanner.nextLine();
+
         GameConfig config = new GameConfig();
         config.showRules();
 
-        Scanner scanner = new Scanner(System.in);
-
         int attempts = 0;
         int hintCount = 0;
+        boolean isWin = false;
 
         while (attempts < config.getMaxAttempts()) {
             try {
@@ -28,6 +31,7 @@ public class GuessingApp {
                 System.out.println(result);
 
                 if ("CORRECT".equals(result)) {
+                    isWin = true;
                     System.out.println("🎉 You guessed it in " + attempts + " attempts!");
                     break;
                 } else {
@@ -43,6 +47,8 @@ public class GuessingApp {
                 System.out.println(e.getMessage());
             }
         }
+
+        StorageService.saveResult(playerName, attempts, isWin);
 
         System.out.println("Game Over");
         scanner.close();
