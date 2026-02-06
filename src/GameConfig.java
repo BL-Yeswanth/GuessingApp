@@ -1,6 +1,6 @@
 import java.util.Random;
 
-class GameConfig {
+public class GameConfig {
 
     private final int MIN = 1;
     private final int MAX = 100;
@@ -27,8 +27,8 @@ class GameConfig {
     }
 
     public void showRules() {
-        System.out.println("Guess a number between " + MIN + " and " + MAX);
+        System.out.println("🎯 Guess a number between " + MIN + " and " + MAX);
         System.out.println("You have " + MAX_ATTEMPTS + " attempts.");
-        System.out.println("Hints will be given after wrong guesses.\n");
+        System.out.println("Hints are limited.\n");
     }
 }
